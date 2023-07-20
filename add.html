@@ -1,0 +1,76 @@
+<style>
+    body {
+        background-color: grey;
+    }
+</style>
+<script>
+
+    function onPress() {
+        var title1 = document.getElementById('title').value;
+        var description1 = document.getElementById('description').value;
+        fetch("http://localhost:3000/api/post", {
+            method: "POST",
+            body: JSON.stringify({
+                title: title1,
+                description: description1
+            }),
+            headers: { "Content-Type": "application/json" }
+        }).then((res) => {
+            res.json().then((data) => {
+                // console.log(data);
+                // parentElement.innerHTML = JSON.stringify(data);
+            })
+        });
+    }
+    function deletetodos() {
+        console.log(title);
+        fetch("http://localhost:3000/api/delete/" + title, {
+            method: "DELETE"
+        }).then(() => {
+            console.log("success")
+        });
+    }
+    function getData() {
+        fetch("http://localhost:3000/api/get", {
+            method: "GET"
+        }).then((res) => {
+            res.json().then((data) => {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    var parentElement = document.getElementById("main-area");
+                    var childElement = document.createElement("div");
+                    var grandchildElement1 = document.createElement("span");
+                    grandchildElement1.innerHTML = data[i].title;
+                    var grandchildElement2 = document.createElement("span");
+                    grandchildElement2.innerHTML = data[i].description;
+
+                    var grandchildElement3 = document.createElement("button");
+                    grandchildElement3.innerHTML = "delete";
+                    var que = data[i].title;
+
+                    grandchildElement3.setAttribute("onclick", "deletetodos(" + que + ")");
+
+                    childElement.append(grandchildElement1, grandchildElement2, grandchildElement3);
+                    parentElement.append(childElement);
+                }
+            })
+        });
+    }
+
+    getData();
+    deletetodos(hii)
+
+</script>
+
+<body>
+    <br><br><br><br>
+
+    <input type="text" placeholder="Enter title" id="title" name="title">
+    <br><br>
+    <input type="text" placeholder="Enter description" id="description" name="description">
+    <br><br>
+    <button onClick="onPress()"> Submit</button>
+    <div id="main-area">
+
+    </div>
+</body>
