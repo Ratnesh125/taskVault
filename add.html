@@ -4,7 +4,6 @@
     }
 </style>
 <script>
-
     function onPress() {
         var title1 = document.getElementById('title').value;
         var description1 = document.getElementById('description').value;
@@ -22,20 +21,20 @@
             })
         });
     }
-    function deletetodos() {
-        console.log(title);
-        fetch("http://localhost:3000/api/delete/" + title, {
+    function deletetodos(title) {
+        fetch("http://localhost:3000/api/delete/?title=" + title, {
             method: "DELETE"
         }).then(() => {
-            console.log("success")
-        });
+            console.log("success");
+            location.reload();
+        })
     }
     function getData() {
         fetch("http://localhost:3000/api/get", {
             method: "GET"
         }).then((res) => {
             res.json().then((data) => {
-                console.log(data);
+                // console.log(data);
                 for (var i = 0; i < data.length; i++) {
                     var parentElement = document.getElementById("main-area");
                     var childElement = document.createElement("div");
@@ -46,20 +45,15 @@
 
                     var grandchildElement3 = document.createElement("button");
                     grandchildElement3.innerHTML = "delete";
-                    var que = data[i].title;
-
-                    grandchildElement3.setAttribute("onclick", "deletetodos(" + que + ")");
-
+                    grandchildElement3.setAttribute("onclick", "deletetodos('" + data[i].title + "')");
                     childElement.append(grandchildElement1, grandchildElement2, grandchildElement3);
                     parentElement.append(childElement);
                 }
             })
         });
-    }
+    };
 
     getData();
-    deletetodos(hii)
-
 </script>
 
 <body>

@@ -58,10 +58,10 @@ app.post('/api/post', (req, res) => {
 
 }
 )
-function findIndex(query, todos) {
+function findIndex(query, arr, findby) {
     var index = (-1);
-    for (var i = 0; i < todos.length; i++) {
-        if (todos[i].fname == query) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i][findby] == query) {
             index = i;
             break;
         }
@@ -90,7 +90,8 @@ app.delete('/api/delete', (req, res) => {
     fs.readFile("todos.json", "utf8", (err, data) => {
         if (err) throw err;
         const todos = JSON.parse(data);
-        var index = findIndex(title, todos);
+        var findby = "title";
+        var index = findIndex(title, todos, findby);
         if (index >= 0) {
             const newtodos = [];
             for (var i = 0; i < todos.length; i++) {
